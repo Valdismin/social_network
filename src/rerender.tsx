@@ -5,6 +5,7 @@ import {App} from "./App";
 import {addPost, stateAllType, UpdateNewPostChange} from "./redux/state";
 
 
+
 export const rerenderEntireApp = (state:stateAllType) => {ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>

@@ -17,42 +17,19 @@ export type myPostPropsType = {
     likesCount: number
 }
 
-export type dialogsAllType = {
-    dialogsData: Array<dialogsPropsType>
-    messagesData: Array<messagePropsType>
-}
-
-export type postsAllType = {
-    postsData:Array<myPostPropsType>
-    addPost:(NewMessage:string) => void
-    newPostsText:string
-    UpdateNewPostChange: (newText: string) => void
-}
-
 export type postsType = {
     postsData:Array<myPostPropsType>
     newPostsText:string
 }
 
+export type dialogsAllType = {
+    dialogsData:Array<dialogsPropsType>
+    messagesData:Array<messagePropsType>
+}
+
 export type stateAllType = {
     postsPropsAll: postsType
     dialogsPropsAll: dialogsAllType
-}
-
-export type appPropsType = {
-    state:stateAllType
-    addPost:(NewMessage:string) => void
-}
-
-export type postsPropsType = {
-    state:postsType
-    addPost:(NewMessage:string) => void
-    newPostsText:string
-    UpdateNewPostChange: (newText: string) => void
-}
-
-export type dialogsPropsType2 = {
-    state:dialogsAllType
 }
 
 export let addPost = (NewMessage:string) => {

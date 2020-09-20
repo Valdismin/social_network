@@ -8,15 +8,14 @@ import {BrowserRouter, Route} from 'react-router-dom'
 import {Music} from "./components/Music/Music";
 import {News} from "./components/News/News";
 import {Settings} from "./components/Settings/Settings";
-import {appPropsType, postsType, stateAllType} from "./redux/state";
+import {postsType, stateAllType} from "./redux/state";
 
 
 type PropsAppType = {
     state:stateAllType
     addPost:(NewMessage:string) => void
-    newPostsText:string
-    PostsPropsAll:postsType
     UpdateNewPostChange: (newText: string) => void
+
 }
 
 export const App = (props: PropsAppType) => {
@@ -27,9 +26,9 @@ export const App = (props: PropsAppType) => {
             <Navigation/>
             <div className='app-wrapper-content'>
                 <Route path='/dialogs' component={() => <Dialogs state={props.state.dialogsPropsAll}/>}/>
-                <Route path='/profile' render={() => <Profile state={props.state.postsPropsAll}
+                <Route path='/profile' render={() => <Profile state={props.state}
                                                               addPost={props.addPost}
-                                                              newPostsText = {props.PostsPropsAll.newPostsText}
+                                                              newPostsText = {props.state.postsPropsAll.newPostsText}
                                                               UpdateNewPostChange ={props.UpdateNewPostChange}/>}/>
                 <Route path='/news' component={News}/>
                 <Route path='/music' component={Music}/>
