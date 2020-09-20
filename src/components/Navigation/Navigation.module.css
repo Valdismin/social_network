@@ -1,0 +1,32 @@
+.nav {
+    grid-area: nav;
+    background-color: sandybrown;
+    padding: 20px;
+    background-color: gainsboro;
+    color: azure;
+}
+
+.item a {
+    color: white;
+    text-decoration: none;
+}
+
+.itemSettings a{
+    margin-bottom: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.itemSettings {
+    margin-top: 20px;
+}
+
+.friends {
+    margin-top: 20px;
+    font-size: 25px;
+    color: white;
+}
+
+.item a.active{
+    color:black;
+}
