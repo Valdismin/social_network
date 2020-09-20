@@ -5,19 +5,27 @@ import {Message} from "./Message/Message";
 import {dialogsAllType} from "../../redux/state";
 
 type dialogsPropsType2 = {
-    state:dialogsAllType
+    state: dialogsAllType
+    addMessage: () => void
+    newMessageText: string
+    UpdateNewMessageChange: (newMessText: string) => void
 }
 
 
-export const Dialogs = (props:dialogsPropsType2) => {
+export const Dialogs = (props: dialogsPropsType2) => {
 
     let dialogsElements = props.state.dialogsData.map(d => <DialogItem name={d.name} id={d.id}/>);
     let messagesElements = props.state.messagesData.map(m => <Message message={m.message}/>)
     const NewMessage = React.createRef<HTMLTextAreaElement>()
 
     const addMessage = () => {
-        let mes = NewMessage.current?.value
-        alert(mes)
+        props.addMessage()
+    }
+
+    const onMessageChange = () => {
+        // @ts-ignore
+        let text = NewMessage.current.value
+        props.UpdateNewMessageChange(text)
     }
 
     return (
@@ -27,8 +35,15 @@ export const Dialogs = (props:dialogsPropsType2) => {
             </div>
             <div className={s.messages}>
                 {messagesElements}
-                <textarea ref = {NewMessage}></textarea>
-                <button onClick={addMessage}>Отправить сообщение</button>
+                <div>
+                    <div>
+                <textarea onChange={onMessageChange}
+                          ref={NewMessage}
+                          value={props.newMessageText}
+                ></textarea>
+                    </div>
+                    <button onClick={addMessage}>Отправить сообщение</button>
+                </div>
             </div>
 
         </div>

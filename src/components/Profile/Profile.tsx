@@ -6,7 +6,7 @@ import {stateAllType} from "../../redux/state";
 
 type postsPropsType = {
     state:stateAllType
-    addPost:(NewMessage:string) => void
+    addPost:() => void
     newPostsText:string
     UpdateNewPostChange:(newText:string) => void
 }

@@ -25,6 +25,7 @@ export type postsType = {
 export type dialogsAllType = {
     dialogsData:Array<dialogsPropsType>
     messagesData:Array<messagePropsType>
+    newMessageText:string
 }
 
 export type stateAllType = {
@@ -32,20 +33,37 @@ export type stateAllType = {
     dialogsPropsAll: dialogsAllType
 }
 
-export let addPost = (NewMessage:string) => {
+export let addPost = () => {
     let NewPost:myPostPropsType = {
         id:5,
-        message:NewMessage,
+        message:state.postsPropsAll.newPostsText,
         likesCount:0
     }
     state.postsPropsAll.postsData.push(NewPost)
+    state.postsPropsAll.newPostsText = ""
     rerenderEntireApp(state)
 }
-
 export let UpdateNewPostChange = (newText:string) => {
     state.postsPropsAll.newPostsText = newText
     rerenderEntireApp(state)
 }
+
+export let addMessage = () => {
+    let NewMessage:messagePropsType = {
+        id:4,
+        message:state.dialogsPropsAll.newMessageText
+    }
+    state.dialogsPropsAll.messagesData.push(NewMessage)
+    state.dialogsPropsAll.newMessageText = ""
+    rerenderEntireApp(state)
+}
+
+export let UpdateNewMessageChange = (newMessText:string) => {
+    state.dialogsPropsAll.newMessageText= newMessText
+    rerenderEntireApp(state)
+}
+
+
 
 
 export let state : stateAllType = {
@@ -55,7 +73,7 @@ export let state : stateAllType = {
             {id: 2, message: 'It is my first post', likesCount: 11},
             {id: 3, message: 'Bonjour', likesCount: 3},
         ],
-        newPostsText:"yvfkhvbd"
+        newPostsText:""
     },
 
     dialogsPropsAll: {
@@ -70,6 +88,7 @@ export let state : stateAllType = {
             {id: 1, message: "Hi"},
             {id: 2, message: "Hello"},
             {id: 3, message: "Bonjour"},
-        ]
+        ],
+        newMessageText:""
     }
 }
