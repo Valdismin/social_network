@@ -1,5 +1,5 @@
 import React from "react";
-import {rerenderEntireApp} from "../rerender";
+
 
 export type dialogsPropsType = {
     id: string
@@ -33,6 +33,10 @@ export type stateAllType = {
     dialogsPropsAll: dialogsAllType
 }
 
+let rerenderEntireApp = (state:stateAllType) =>{
+
+}
+
 export let addPost = () => {
     let NewPost:myPostPropsType = {
         id:5,
@@ -63,7 +67,9 @@ export let UpdateNewMessageChange = (newMessText:string) => {
     rerenderEntireApp(state)
 }
 
-
+export const subscribe = (observer:(state:stateAllType) => void) => {
+    rerenderEntireApp= observer
+}
 
 
 export let state : stateAllType = {

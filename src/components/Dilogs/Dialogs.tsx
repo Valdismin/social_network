@@ -40,6 +40,7 @@ export const Dialogs = (props: dialogsPropsType2) => {
                 <textarea onChange={onMessageChange}
                           ref={NewMessage}
                           value={props.newMessageText}
+                          autoFocus={true}
                 ></textarea>
                     </div>
                     <button onClick={addMessage}>Отправить сообщение</button>
