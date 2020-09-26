@@ -2,25 +2,24 @@ import React from "react";
 import s from './Profile.module.css'
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {stateAllType} from "../../redux/state";
+import {AddMessageType, AddPostType, stateAllType, updateNewMessageType, updateNewPostType} from "../../redux/state";
 
 type postsPropsType = {
-    state:stateAllType
-    addPost:() => void
-    newPostsText:string
-    UpdateNewPostChange:(newText:string) => void
+    state: stateAllType
+    newPostsText: string
+    dispatch:(action:AddPostType|updateNewPostType|AddMessageType|updateNewMessageType) => void
 }
 
 
-export const Profile = (props:postsPropsType) => {
+export const Profile = (props: postsPropsType) => {
 
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts postsData = {props.state.postsPropsAll.postsData}
-                     addPost={props.addPost}
+            <MyPosts postsData={props.state.postsPropsAll.postsData}
+                     dispatch={props.dispatch}
                      newPostsText={props.newPostsText}
-                     UpdateNewPostChange = {props.UpdateNewPostChange}/>
+            />
         </div>
     )
 }

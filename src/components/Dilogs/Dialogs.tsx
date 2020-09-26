@@ -2,13 +2,12 @@ import React from 'react'
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItme/DialogsItem";
 import {Message} from "./Message/Message";
-import {dialogsAllType} from "../../redux/state";
+import {AddMessageType, AddPostType, dialogsAllType, updateNewMessageType, updateNewPostType} from "../../redux/state";
 
 type dialogsPropsType2 = {
     state: dialogsAllType
-    addMessage: () => void
     newMessageText: string
-    UpdateNewMessageChange: (newMessText: string) => void
+    dispatch:(action:AddPostType|updateNewPostType|AddMessageType|updateNewMessageType) => void
 }
 
 
@@ -19,13 +18,13 @@ export const Dialogs = (props: dialogsPropsType2) => {
     const NewMessage = React.createRef<HTMLTextAreaElement>()
 
     const addMessage = () => {
-        props.addMessage()
+        props.dispatch({type:"ADD-MASSAGE",newMessageText:props.newMessageText})
     }
 
     const onMessageChange = () => {
         // @ts-ignore
         let text = NewMessage.current.value
-        props.UpdateNewMessageChange(text)
+        props.dispatch({type:"UPDATE-NEW-MASSAGE-CHANGE",newMessText:text})
     }
 
     return (
