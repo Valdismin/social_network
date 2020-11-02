@@ -2,7 +2,14 @@ import React from 'react'
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItme/DialogsItem";
 import {Message} from "./Message/Message";
-import {AddMessageType, AddPostType, dialogsAllType, updateNewMessageType, updateNewPostType} from "../../redux/state";
+import {
+    AddMessageType,
+    AddPostType,
+    dialogsAllType,
+    updateNewMessageType,
+    updateNewPostType
+} from "../../redux/store";
+import {addMessageCreateAction, updateNewMassageCreateAction} from "../../redux/dialogs_reducer";
 
 type dialogsPropsType2 = {
     state: dialogsAllType
@@ -18,13 +25,14 @@ export const Dialogs = (props: dialogsPropsType2) => {
     const NewMessage = React.createRef<HTMLTextAreaElement>()
 
     const addMessage = () => {
-        props.dispatch({type:"ADD-MASSAGE",newMessageText:props.newMessageText})
+        props.dispatch(addMessageCreateAction(props.newMessageText))
     }
 
-    const onMessageChange = () => {
+    const onMessageChange = (e:any) => {
         // @ts-ignore
-        let text = NewMessage.current.value
-        props.dispatch({type:"UPDATE-NEW-MASSAGE-CHANGE",newMessText:text})
+        let body = e.target.value
+        //let text = NewMessage.current.value
+        props.dispatch(updateNewMassageCreateAction(body))
     }
 
     return (
@@ -33,7 +41,7 @@ export const Dialogs = (props: dialogsPropsType2) => {
                 {dialogsElements}
             </div>
             <div className={s.messages}>
-                {messagesElements}
+                <div>{messagesElements}</div>
                 <div>
                     <div>
                 <textarea onChange={onMessageChange}

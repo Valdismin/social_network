@@ -2,10 +2,12 @@ import React from "react";
 import s from './Profile.module.css'
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {AddMessageType, AddPostType, stateAllType, updateNewMessageType, updateNewPostType} from "../../redux/state";
+import {AddMessageType, AddPostType, stateAllType, updateNewMessageType, updateNewPostType} from "../../redux/store";
+import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
+import {storeReduxAllType} from "../../App";
 
 type postsPropsType = {
-    state: stateAllType
+    store: storeReduxAllType
     newPostsText: string
     dispatch:(action:AddPostType|updateNewPostType|AddMessageType|updateNewMessageType) => void
 }
@@ -16,10 +18,7 @@ export const Profile = (props: postsPropsType) => {
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts postsData={props.state.postsPropsAll.postsData}
-                     dispatch={props.dispatch}
-                     newPostsText={props.newPostsText}
-            />
+            <MyPostsContainer store={props.store}/>
         </div>
     )
 }

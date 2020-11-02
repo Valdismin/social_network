@@ -1,4 +1,6 @@
 import React from "react";
+import {profileReducer} from "./porfile_reducer";
+import {dialogsReducer} from "./dialogs_reducer";
 
 export type dialogsPropsType = {
     id: string
@@ -37,27 +39,27 @@ export type storeAllType = {
     getState: () => stateAllType
     subscribe: (observer: () => void) => void
     _rerenderEntireApp: () => void
-    dispatch:(action:AddPostType|updateNewPostType|AddMessageType|updateNewMessageType) => void
+    dispatch: (action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType) => void
 }
 
 export type AddPostType = {
-    type:"ADD-POST"
-    newPostsText:string
+    type: "ADD-POST"
+    newPostsText: string
 }
 export type updateNewPostType = {
-    type:"UPDATE-NEW-POST-CHANGE"
-    newText:string
+    type: "UPDATE-NEW-POST-CHANGE"
+    newText: string
 }
 export type AddMessageType = {
-    type:"ADD-MASSAGE"
-    newMessageText:string
+    type: "ADD-MASSAGE"
+    newMessageText: string
 }
 export type updateNewMessageType = {
-    type:"UPDATE-NEW-MASSAGE-CHANGE"
-    newMessText:string
+    type: "UPDATE-NEW-MASSAGE-CHANGE"
+    newMessText: string
 }
 
-export let store:storeAllType = {
+export let store: storeAllType = {
     _state: {
         postsPropsAll: {
             postsData: [
@@ -93,32 +95,12 @@ export let store:storeAllType = {
     subscribe(observer) {
         this._rerenderEntireApp = observer
     },
-    dispatch(action){
-        if(action.type === "ADD-POST"){
-            let NewPost: myPostPropsType = {
-                id: 5,
-                message: action.newPostsText,
-                likesCount: 0
-            }
-            this._state.postsPropsAll.postsData.push(NewPost)
-            this._state.postsPropsAll.newPostsText = ""
-            this._rerenderEntireApp()
-        } else if(action.type === "UPDATE-NEW-POST-CHANGE") {
-            this._state.postsPropsAll.newPostsText = action.newText
-            this._rerenderEntireApp()
-        } else if(action.type === "ADD-MASSAGE") {
-            let NewMessage: messagePropsType = {
-                id: 4,
-                message: action.newMessageText
-            }
-            this._state.dialogsPropsAll.messagesData.push(NewMessage)
-            this._state.dialogsPropsAll.newMessageText = ""
-            this._rerenderEntireApp()
-        } else if(action.type === "UPDATE-NEW-MASSAGE-CHANGE"){
-            this._state.dialogsPropsAll.newMessageText = action.newMessText
-            this._rerenderEntireApp()
-        }
-    },
+    dispatch(action) {
+        this._state.postsPropsAll = profileReducer(this._state.postsPropsAll, action)
+        this._state.dialogsPropsAll = dialogsReducer(this._state.dialogsPropsAll, action)
+        this._rerenderEntireApp()
+
+    }
 }
 
 

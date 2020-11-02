@@ -10,13 +10,18 @@ import {News} from "./components/News/News";
 import {Settings} from "./components/Settings/Settings";
 import {
     AddMessageType,
-    AddPostType,
-    storeAllType, updateNewMessageType, updateNewPostType,
-} from "./redux/state";
+    AddPostType, stateAllType,
+    updateNewMessageType, updateNewPostType,
+} from "./redux/store";
 
+export type storeReduxAllType = {
+    getState: () => stateAllType
+    subscribe: (observer: () => void) => void
+    dispatch: (action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType) => void
+}
 
 type PropsAppType = {
-    store:storeAllType
+    store:storeReduxAllType
 }
 
 export const App:React.FC<PropsAppType> = (props) => {
@@ -30,7 +35,7 @@ export const App:React.FC<PropsAppType> = (props) => {
                 <Route path='/dialogs' component={() => <Dialogs state={state.dialogsPropsAll}
                                                                  newMessageText={state.dialogsPropsAll.newMessageText}
                                                                  dispatch={props.store.dispatch.bind(props.store)}/>}/>
-                <Route path='/profile' render={() => <Profile state={state}
+                <Route path='/profile' render={() => <Profile store={props.store}
                                                               dispatch={props.store.dispatch.bind(props.store)}
                                                               newPostsText = {state.postsPropsAll.newPostsText}
                                                               />}/>
