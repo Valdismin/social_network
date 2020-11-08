@@ -44,7 +44,6 @@ export type storeAllType = {
 
 export type AddPostType = {
     type: "ADD-POST"
-    newPostsText: string
 }
 export type updateNewPostType = {
     type: "UPDATE-NEW-POST-CHANGE"
@@ -52,7 +51,6 @@ export type updateNewPostType = {
 }
 export type AddMessageType = {
     type: "ADD-MASSAGE"
-    newMessageText: string
 }
 export type updateNewMessageType = {
     type: "UPDATE-NEW-MASSAGE-CHANGE"
@@ -83,7 +81,7 @@ export let store: storeAllType = {
                 {id: 2, message: "Hello"},
                 {id: 3, message: "Bonjour"},
             ],
-            newMessageText: ""
+            newMessageText: " "
         }
     },
     _rerenderEntireApp() {

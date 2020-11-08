@@ -1,32 +1,20 @@
-import React, {RefObject} from "react";
-import s from './MyPosts.module.css'
-import {Post} from "./Post/Post";
-import {
-    AddMessageType,
-    AddPostType,
-    myPostPropsType,
-    updateNewMessageType,
-    updateNewPostType
-} from "../../../redux/store";
+import React from "react";
 import {addPostCreateAction, updateNewPostCreateAction} from "../../../redux/porfile_reducer";
 import {MyPosts} from "./MyPosts";
-import {storeReduxAllType} from "../../../App";
+import {AddMessageType, AddPostType, stateAllType, updateNewMessageType, updateNewPostType} from "../../../redux/store";
+import {connect} from "react-redux";
 
-type postsAllType = {
-    store:storeReduxAllType
+
+let mapStateToProps = (state:stateAllType) => {
+    return {
+        postsPropsAll:state.postsPropsAll
+    }
+}
+let mapDispatchToProps = (dispatch:(action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType) => void)=> {
+    return {
+        updateNewPostText:(text: string)=>{dispatch(updateNewPostCreateAction(text))},
+        addPost:()=>{dispatch(addPostCreateAction())}
+    }
 }
 
-export const MyPostsContainer = (props:postsAllType) => {
-
-    const addNewPost = () => {
-        props.store.dispatch(addPostCreateAction(props.store.getState().postsPropsAll.newPostsText))
-    }
-
-    let onPostChange = (text:string) => {
-        props.store.dispatch(updateNewPostCreateAction(text))
-    }
-
-    return (
-    <MyPosts updateNewPostText={onPostChange} addPost={addNewPost} postsData={props.store.getState().postsPropsAll.postsData} newPostsText={props.store.getState().postsPropsAll.newPostsText}/>
-    )
-}
+export const MyPostsContainer = connect(mapStateToProps,mapDispatchToProps)(MyPosts)

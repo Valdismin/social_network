@@ -1,19 +1,12 @@
-import React, {RefObject} from "react";
+import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {
-    AddMessageType,
-    AddPostType,
-    myPostPropsType,
-    updateNewMessageType,
-    updateNewPostType
-} from "../../../redux/store";
-import {addPostCreateAction, updateNewPostCreateAction} from "../../../redux/porfile_reducer";
+import {myPostPropsType, postsType} from "../../../redux/store";
+
 
 
 type postsAllType = {
-    postsData: Array<myPostPropsType>
-    newPostsText: string
+    postsPropsAll: postsType
     updateNewPostText: (text: string) => void
     addPost: () => void
 }
@@ -21,7 +14,7 @@ type postsAllType = {
 
 export const MyPosts = (props: postsAllType) => {
 
-    let postElements = props.postsData.map(p => <Post message={p.message} count_likes={p.likesCount}/>)
+    let postElements = props.postsPropsAll.postsData.map(p => <Post message={p.message} count_likes={p.likesCount}/>)
     let NewPost = React.createRef<HTMLTextAreaElement>()
 
     const addNewPost = () => {
@@ -39,7 +32,7 @@ export const MyPosts = (props: postsAllType) => {
             <div>
                 <div>
                      <textarea onChange={onPostChange} ref={NewPost}
-                               value={props.newPostsText}>
+                               value={props.postsPropsAll.newPostsText}>
                      </textarea>
                 </div>
                 <div>

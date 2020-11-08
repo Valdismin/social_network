@@ -6,8 +6,8 @@ import {
     updateNewPostType
 } from "./store";
 
-export const addMessageCreateAction = (messageText: string): AddMessageType => {
-    return {type: "ADD-MASSAGE", newMessageText: messageText}
+export const addMessageCreateAction = (): AddMessageType => {
+    return {type: "ADD-MASSAGE"}
 }
 
 export const updateNewMassageCreateAction = (messageText: string): updateNewMessageType => {
@@ -35,7 +35,7 @@ export const dialogsReducer = (state: dialogsAllType = initialState, action: Add
         case "ADD-MASSAGE":
             let NewMessage: messagePropsType = {
                 id: 4,
-                message: action.newMessageText
+                message: state.newMessageText
             }
             state.messagesData.push(NewMessage)
             state.newMessageText = ""
