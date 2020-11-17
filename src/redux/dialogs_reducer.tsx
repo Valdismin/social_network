@@ -31,18 +31,24 @@ let initialState = {
 }
 
 export const dialogsReducer = (state: dialogsAllType = initialState, action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType) => {
+
+
     switch (action.type) {
         case "ADD-MASSAGE":
             let NewMessage: messagePropsType = {
                 id: 4,
                 message: state.newMessageText
             }
-            state.messagesData.push(NewMessage)
-            state.newMessageText = ""
-            return state
+            return {
+                ...state,
+                messagesData: [...state.messagesData, NewMessage],
+                newMessageText: ""
+            }
         case "UPDATE-NEW-MASSAGE-CHANGE":
-            state.newMessageText = action.newMessText
-            return state
+            return {
+                ...state,
+                newMessageText: action.newMessText
+            }
         default:
             return state
     }

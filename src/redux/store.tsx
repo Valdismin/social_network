@@ -57,7 +57,7 @@ export type updateNewMessageType = {
     newMessText: string
 }
 
-export let store: storeAllType = {
+/*export let store: storeAllType = {
     _state: {
         postsPropsAll: {
             postsData: [
@@ -99,7 +99,7 @@ export let store: storeAllType = {
         this._rerenderEntireApp()
 
     }
-}
+}*/
 
 
 

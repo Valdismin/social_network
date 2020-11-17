@@ -13,6 +13,7 @@ import {
     updateNewMessageType, updateNewPostType,
 } from "./redux/store";
 import {DialogsContainer} from "./components/Dilogs/DialogsContainer";
+import UsersContainer from "./components/Users/UsersContainer";
 
 
 export type storeReduxAllType = {
@@ -35,6 +36,7 @@ export const App = () => {
                 <Route path='/news' render={() => News}/>
                 <Route path='/music' render={() => Music}/>
                 <Route path='/settings' render={() => Settings}/>
+                <Route path='/users' render={()=> <UsersContainer/>}/>
             </div>
         </div>
 

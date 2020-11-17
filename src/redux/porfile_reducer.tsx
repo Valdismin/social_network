@@ -1,11 +1,30 @@
 import React from "react";
-import {
-    AddMessageType,
-    AddPostType,
-    myPostPropsType, postsType,
-    updateNewMessageType,
-    updateNewPostType
-} from "./store";
+
+export type myPostPropsType = {
+    id: number
+    message: string
+    likesCount: number
+}
+
+export type postsType = {
+    postsData: Array<myPostPropsType>
+    newPostsText: string
+}
+
+export type AddPostType = {
+    type: "ADD-POST"
+}
+export type updateNewPostType = {
+    type: "UPDATE-NEW-POST-CHANGE"
+    newText: string
+}
+export type AddMessageType = {
+    type: "ADD-MASSAGE"
+}
+export type updateNewMessageType = {
+    type: "UPDATE-NEW-MASSAGE-CHANGE"
+    newMessText: string
+}
 
 export const addPostCreateAction = (): AddPostType => {
     return {type: "ADD-POST"}
@@ -27,25 +46,21 @@ let initialState = {
 
 export const profileReducer = (state: postsType = initialState, action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType) => {
     switch (action.type) {
-        case "ADD-POST": {
+        case "ADD-POST":
             let NewPost: myPostPropsType = {
                 id: 5,
                 message: state.newPostsText,
                 likesCount: 0
             }
-            let stateCopy = {...state}
-            stateCopy.postsData = [...state.postsData]
-            stateCopy.postsData.push(NewPost)
-            stateCopy.newPostsText = ""
-            return stateCopy
-        }
-        case
-        "UPDATE-NEW-POST-CHANGE"
-        : {
-            let stateCopy = {...state}
-            stateCopy.newPostsText = action.newText
-            return stateCopy
-        }
+
+            return {...state,
+                postsData:[...state.postsData,NewPost],
+                newPostsText:""
+            }
+        case "UPDATE-NEW-POST-CHANGE":
+            return {...state,
+                newPostsText:action.newText
+            }
         default :
             return state
     }
