@@ -1,8 +1,8 @@
 import React from 'react'
-import styles from './users.module.css'
+import userPhoto from "../../assets/images/user.png";
+import styles from "./users.module.css";
+import axios from "axios";
 import {usersDataType} from "../../redux/users_reducer";
-import axios from 'axios'
-import userPhoto from '../../assets/images/user.png'
 
 type usersAllType = {
     users: Array<usersDataType>
@@ -11,37 +11,35 @@ type usersAllType = {
     set_users: (usersData: Array<usersDataType>) => void
 }
 
-export let Users = (props: usersAllType) => {
+export class Users extends React.Component<usersAllType>{
 
-    let getUsers = ()=>{
+    componentDidMount() {
 
-    if (props.users.length === 0) {
 
-        axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response => {
-                props.set_users(response.data.items)
-            }
-        )
+            axios.get("https://social-network.samuraijs.com/api/1.0/users").then(response => {
+                    this.props.set_users(response.data.items)
+                }
+            )
     }
 
-    }
 
-    return <div>
-        <button onClick={getUsers}>get users</button>
-        {
-            props.users.map(u => <div key={u.id}>
+    render () {
+        return <div>
+            {
+                this.props.users.map(u => <div key={u.id}>
             <span>
                <div>
                   <img src={u.photos.small != null ? u.photos.small : userPhoto} className={styles.userPhoto}/>
                </div>
                 <div>
                     {u.followed ? <button onClick={() => {
-                        props.unfollow(u.id)
+                        this.props.unfollow(u.id)
                     }}>Unfollow</button> : <button onClick={() => {
-                        props.follow(u.id)
+                        this.props.follow(u.id)
                     }}>Follow</button>}
                 </div>
             </span>
-                    <span>
+                        <span>
                     <span>
                         <div>{u.name}</div>
                         <div>{u.status}</div>
@@ -51,8 +49,10 @@ export let Users = (props: usersAllType) => {
                         <div>{"u.location.city"}</div>
                     </span>
                 </span>
-                </div>
-            )
-        }
-    </div>
+                    </div>
+                )
+            }
+        </div>
+    }
+
 }
