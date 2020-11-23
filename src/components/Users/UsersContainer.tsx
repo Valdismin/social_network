@@ -2,18 +2,12 @@ import React from 'react'
 import {connect} from "react-redux";
 import {
     follow,
-    followType,
-    set_is_fetching,
-    set_total_users_count,
     setCurrentPage,
-    setCurrentPageType,
     setIsFetching,
     setTotalUsersCount,
     set_users,
-    setUsersType,
     stateType,
     unfollow,
-    unFollowType,
     usersDataType
 } from "../../redux/users_reducer";
 import axios from "axios";

@@ -1,11 +1,11 @@
-import React from "react";
-import {addPostCreateAction, updateNewPostCreateAction} from "../../../redux/porfile_reducer";
+
+import {addPostCreateAction, stateType, updateNewPostCreateAction} from "../../../redux/porfile_reducer";
 import {MyPosts} from "./MyPosts";
-import {AddMessageType, AddPostType, stateAllType, updateNewMessageType, updateNewPostType} from "../../../redux/store";
+import {AddMessageType, AddPostType, updateNewMessageType, updateNewPostType} from "../../../redux/store";
 import {connect} from "react-redux";
 
 
-let mapStateToProps = (state:stateAllType) => {
+let mapStateToProps = (state:stateType) => {
     return {
         postsPropsAll:state.postsPropsAll
     }
