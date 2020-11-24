@@ -4,8 +4,7 @@ import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {ProfileType} from "../../redux/porfile_reducer";
 
 type profilePropsType = {
-    setUserProfile:(profile:string) => void
-    profile:ProfileType
+    profile:ProfileType | null
 }
 
 export const Profile = (props:profilePropsType) => {

@@ -4,7 +4,7 @@ import {ProfileType} from "../../../redux/porfile_reducer";
 import {Preloader} from "../../common/Preloader/preloader";
 
 type profileInfoType = {
-    profile:ProfileType
+    profile:ProfileType | null
 }
 
 export const ProfileInfo = (props:profileInfoType) => {
