@@ -1,4 +1,3 @@
-
 import {
     AddMessageType,
     AddPostType, dialogsAllType, messagePropsType,

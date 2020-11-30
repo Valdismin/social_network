@@ -3,28 +3,25 @@ import {Profile} from "./Profile";
 import axios from "axios";
 import {connect} from "react-redux";
 import {ProfileType, setUserProfile, stateType} from "../../redux/porfile_reducer";
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import {withRouter, RouteComponentProps} from "react-router-dom";
 
 type mapStateToPropsType = {
-    profile:ProfileType | null
+    profile: ProfileType | null
 }
 type pathParamsType = {
-    userId:string
+    userId: string
 }
 type mapDispatchToPropsType = {
-    setUserProfile:(profile: string)=>void
+    setUserProfile: (profile: string) => void
 }
 type ownPropsType = mapStateToPropsType & mapDispatchToPropsType
 type PropsType = RouteComponentProps<pathParamsType> & ownPropsType
 
 
-
-const ProfileContainer = (props:PropsType) => {
-
-
+const ProfileContainer = (props: PropsType) => {
     useEffect(() => {
         let userId = props.match.params.userId
-        if(!userId) {
+        if (!userId) {
             userId = "2"
         }
         axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`).then(response => {
@@ -34,11 +31,11 @@ const ProfileContainer = (props:PropsType) => {
         })
     })
 
-        return (
-            <Profile profile={props.profile}/>)
+    return (
+        <Profile profile={props.profile}/>)
 }
 
-let mapStateToProps = (state: stateType):mapStateToPropsType => ({
+let mapStateToProps = (state: stateType): mapStateToPropsType => ({
     profile: state.postsPropsAll.profile
 })
 
