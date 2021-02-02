@@ -19,6 +19,15 @@ export const followAPI={
         return intance.post(`follow/${userID}`,{}).then(response => response.data)
     }
 }
-
+export const authAPI={
+    me () {
+        return  intance.get(`auth/me`)
+    }
+}
+export const profileAPI={
+    getProfile (userId:string) {
+        return  intance.get(`profile/${userId}`)
+    }
+}
 
 

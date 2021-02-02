@@ -1,19 +1,19 @@
+import {Dispatch} from "redux";
+import {profileAPI} from "../api/api";
+
 export type myPostPropsType = {
     id: number
     message: string
     likesCount: number
 }
-
 export type stateType = {
     postsPropsAll:postsType
 }
-
 export type postsType = {
     postsData: Array<myPostPropsType>
     newPostsText: string
     profile:ProfileType | null
 }
-
 export type ProfileType = {
     userId: number
     lookingForAJob: boolean
@@ -33,7 +33,6 @@ export type ContactsType = {
     mainLink: string | null
 }
 export type PhotosType = { small: string, large: string }
-
 export type AddPostType = {
     type: "ADD-POST"
 }
@@ -53,16 +52,7 @@ export type setUserProfileType = {
     profile: string
 }
 
-export const addPostCreateAction = (): AddPostType => {
-    return {type: "ADD-POST"}
-}
-export const setUserProfile = (profile: string): setUserProfileType => {
-    return {type: "SET-USER-PROFILE", profile}
-}
-
-export const updateNewPostCreateAction = (postText: string): updateNewPostType => {
-    return {type: "UPDATE-NEW-POST-CHANGE", newText: postText}
-}
+export type dispatchType = AddPostType | setUserProfileType | updateNewPostType
 
 let initialState = {
     postsData: [
@@ -71,7 +61,7 @@ let initialState = {
         {id: 3, message: 'Bonjour', likesCount: 3},
     ],
     newPostsText: "",
-    profile:null
+    profile: null
 }
 
 
@@ -99,4 +89,22 @@ export const profileReducer = (state: postsType = initialState, action: AddPostT
         default :
             return state
     }
+}
+
+export const addPostCreateAction = (): AddPostType => {
+    return {type: "ADD-POST"}
+}
+export const setUserProfile = (profile: string): setUserProfileType => {
+    return {type: "SET-USER-PROFILE", profile}
+}
+export const updateNewPostCreateAction = (postText: string): updateNewPostType => {
+    return {type: "UPDATE-NEW-POST-CHANGE", newText: postText}
+}
+
+export const getUserProfile = (userId:string) =>(dispatch:Dispatch<dispatchType>) => {
+    profileAPI.getProfile(userId).then(response => {
+
+        dispatch(setUserProfile(response.data))
+
+    })
 }

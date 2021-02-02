@@ -2,11 +2,13 @@ import {addMessageCreateAction, updateNewMassageCreateAction} from "../../redux/
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
 import {AddMessageType, AddPostType, stateAllType, updateNewMessageType, updateNewPostType} from "../../redux/store";
+import {stateType} from "../../redux/redux-store";
 
 
-let mapStateToProps = (state:stateAllType) => {
+let mapStateToProps = (state:stateType) => {
     return {
-        dialogsPropsAll:state.dialogsPropsAll
+        dialogsPropsAll:state.dialogsPropsAll,
+        isAuth:state.auth.isAuth
     }
 }
 let mapDispatchToProps = (dispatch:(action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType) => void)=> {
