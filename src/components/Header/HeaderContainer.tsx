@@ -1,15 +1,17 @@
 import React, {useEffect} from "react";
 import {Header} from "./Header";
-import axios from "axios";
 import {connect} from "react-redux";
-import {getAuthUserData, stateType} from "../../redux/auth-reducer";
+import {getAuthUserData, logout, stateType} from "../../redux/auth-reducer";
 
 
 
-type mapDispatchToPropsType = { getAuthUserData: () => void }
+type mapDispatchToPropsType = {
+    getAuthUserData: () => void,
+    logout:() => void
+}
 type mapStateToPropsType = {
     isAuth:boolean,
-    login:string
+    login:string | null
 }
 type PropsType = mapDispatchToPropsType & mapStateToPropsType
 
@@ -21,7 +23,7 @@ export class HeaderContainer extends React.Component<PropsType> {
     }
 
     render() {
-        return <Header isAuth={this.props.isAuth} login={this.props.login}/>
+        return <Header isAuth={this.props.isAuth} login={this.props.login} logout={this.props.logout} />
     }
 }
 
@@ -32,4 +34,4 @@ let mapStateToProps = (state: stateType) => {
     }
 }
 
-export default connect(mapStateToProps, {getAuthUserData})(HeaderContainer)
+export default connect(mapStateToProps, {getAuthUserData,logout})(HeaderContainer)

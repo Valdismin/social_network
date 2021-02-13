@@ -22,11 +22,24 @@ export const followAPI={
 export const authAPI={
     me () {
         return  intance.get(`auth/me`)
+    },
+    login(email:string,password:string,rememberMe = false) {
+        return intance.post(`auth/login`,{email,password,rememberMe})
+    },
+    logout() {
+        return intance.delete(`auth/login`)
     }
+
 }
 export const profileAPI={
     getProfile (userId:string) {
         return  intance.get(`profile/${userId}`)
+    },
+    getStatus(userId:string) {
+        return  intance.get(`profile/status/${userId}`)
+    },
+    updateStatus(status:string) {
+        return  intance.put(`profile/status/`, {status:status})
     }
 }
 

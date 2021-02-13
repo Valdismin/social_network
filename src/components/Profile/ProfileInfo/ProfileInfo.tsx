@@ -1,10 +1,13 @@
 import React from "react";
 import s from './ProfileInfo.module.css'
-import {ProfileType} from "../../../redux/porfile_reducer";
+import {ProfileType, updateStatus} from "../../../redux/porfile_reducer";
 import {Preloader} from "../../common/Preloader/preloader";
+import {ProfileStatus} from "./ProfileStatus";
 
 type profileInfoType = {
-    profile:ProfileType | null
+    profile:ProfileType | null,
+    status:string,
+    updateStatus : (status:string) => void
 }
 
 export const ProfileInfo = (props:profileInfoType) => {
@@ -16,13 +19,13 @@ export const ProfileInfo = (props:profileInfoType) => {
     return (
         <div>
             <div className={s.img}>
-                <img
+               {/* <img
                     src='https://dbijapkm3o6fj.cloudfront.net/resources/20611,1004,1,6,4,0,960,330/-3842-/20161013141806/image-gallery.jpeg'
-                    alt='Main image'/>
+                    alt='Main image'/>*/}
             </div>
             <div className={s.description}>
                 <img src={props.profile.photos.large}/>
-                ava+description
+                <ProfileStatus status={props.status} updateStatus={updateStatus}/>
             </div>
         </div>
     )

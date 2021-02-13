@@ -1,20 +1,20 @@
 import React from "react";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
-import {ProfileType} from "../../redux/porfile_reducer";
-import {Redirect} from "react-router-dom";
+import {ProfileType, updateStatus} from "../../redux/porfile_reducer";
+
 
 type profilePropsType = {
     profile:ProfileType | null,
-    isAuth:boolean
+    status:string,
+    updateStatus : (status:string) => void
 }
 
 export const Profile = (props:profilePropsType) => {
 
-    if(props.isAuth === false) return <Redirect to='/login' />
     return (
         <div>
-            <ProfileInfo profile={props.profile}/>
+            <ProfileInfo profile={props.profile} status = {props.status} updateStatus={updateStatus}/>
             <MyPostsContainer/>
         </div>
     )

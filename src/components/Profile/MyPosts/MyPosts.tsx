@@ -2,42 +2,33 @@ import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
 import {postsType} from "../../../redux/porfile_reducer";
+import {Field, InjectedFormProps, reduxForm} from 'redux-form';
+import {maxLengthCreator, required} from "../../../utils/validators";
+import {Textarea} from "../../common/FormsControls/FormsControls";
 
 
 
 type postsAllType = {
     postsPropsAll: postsType
-    updateNewPostText: (text: string) => void
-    addPost: () => void
+    addPost: (newPost:string) => void
 }
 
 
 export const MyPosts = (props: postsAllType) => {
 
     let postElements = props.postsPropsAll.postsData.map(p => <Post message={p.message} count_likes={p.likesCount}/>)
-    let NewPost = React.createRef<HTMLTextAreaElement>()
 
-    const addNewPost = () => {
-        props.addPost()
+
+    const addNewPost = (values:FormDataType) => {
+        props.addPost(values.newPost)
+        debugger
     }
 
-    let onPostChange = () => {
-        // @ts-ignore
-        let text = NewPost.current.value
-        props.updateNewPostText(text)
-    }
     return (
         <div className={s.postBlock}>
             <h3>My posts</h3>
             <div>
-                <div>
-                     <textarea onChange={onPostChange} ref={NewPost}
-                               value={props.postsPropsAll.newPostsText}>
-                     </textarea>
-                </div>
-                <div>
-                    <button onClick={addNewPost}>Add post</button>
-                </div>
+                <MyPostsFormRedux onSubmit={addNewPost}/>
             </div>
             <div className={s.content}>
                 {postElements}
@@ -45,3 +36,25 @@ export const MyPosts = (props: postsAllType) => {
         </div>
     )
 }
+
+type FormDataType = {
+    newPost:string
+}
+
+const maxLength = maxLengthCreator(30)
+
+const MyPostsForm :React.FC <InjectedFormProps<FormDataType>>  = (props) => {
+    return(
+        <form onSubmit={props.handleSubmit}>
+            <div>
+                <Field component={Textarea} name={"newPost"} placeholder={"Enter your post"}
+                validate={[required,maxLength]}/>
+            </div>
+            <div>
+                <button >Add post</button>
+            </div>
+        </form>
+    )
+}
+
+const MyPostsFormRedux = reduxForm<FormDataType>({form:"addPostForm"}) (MyPostsForm)

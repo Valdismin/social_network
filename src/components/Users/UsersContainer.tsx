@@ -1,14 +1,14 @@
 import React from 'react'
 import {connect} from "react-redux";
 import {
-    follow,
     setCurrentPage,
     stateType,
-    unfollow,
     usersDataType, toggleIsFollowingProgress, getUsers, getFollow, getUnfollow
 } from "../../redux/users_reducer";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/preloader";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 type usersAllType = {
     users: Array<usersDataType>
@@ -63,10 +63,13 @@ let mapStateToProps = (state: stateType) => {
     }
 }
 
-export default connect(mapStateToProps, {
-    getFollow,
-    getUnfollow,
-    setCurrentPage,
-    toggleIsFollowingProgress,
-    getUsers
-})(UsersContainer)
+export default compose(
+    connect(mapStateToProps, {
+        getFollow,
+        getUnfollow,
+        setCurrentPage,
+        toggleIsFollowingProgress,
+        getUsers
+    }),
+    withAuthRedirect
+)(UsersContainer) as React.ComponentType

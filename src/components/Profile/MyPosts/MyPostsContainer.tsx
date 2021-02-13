@@ -1,7 +1,7 @@
 
-import {addPostCreateAction, stateType, updateNewPostCreateAction} from "../../../redux/porfile_reducer";
+import {addPostCreateAction, stateType} from "../../../redux/porfile_reducer";
 import {MyPosts} from "./MyPosts";
-import {AddMessageType, AddPostType, updateNewMessageType, updateNewPostType} from "../../../redux/store";
+import {AddPostType} from "../../../redux/store";
 import {connect} from "react-redux";
 
 
@@ -10,10 +10,9 @@ let mapStateToProps = (state:stateType) => {
         postsPropsAll:state.postsPropsAll
     }
 }
-let mapDispatchToProps = (dispatch:(action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType) => void)=> {
+let mapDispatchToProps = (dispatch:(action: AddPostType ) => void)=> {
     return {
-        updateNewPostText:(text: string)=>{dispatch(updateNewPostCreateAction(text))},
-        addPost:()=>{dispatch(addPostCreateAction())}
+        addPost:(newPost:string)=>{dispatch(addPostCreateAction(newPost))}
     }
 }
 

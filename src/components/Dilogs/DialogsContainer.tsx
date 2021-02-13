@@ -1,21 +1,24 @@
-import {addMessageCreateAction, updateNewMassageCreateAction} from "../../redux/dialogs_reducer";
+import {addMessageCreateAction} from "../../redux/dialogs_reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
-import {AddMessageType, AddPostType, stateAllType, updateNewMessageType, updateNewPostType} from "../../redux/store";
+import {AddMessageType} from "../../redux/store";
 import {stateType} from "../../redux/redux-store";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 let mapStateToProps = (state:stateType) => {
     return {
         dialogsPropsAll:state.dialogsPropsAll,
-        isAuth:state.auth.isAuth
     }
 }
-let mapDispatchToProps = (dispatch:(action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType) => void)=> {
+let mapDispatchToProps = (dispatch:(action: AddMessageType ) => void)=> {
     return {
-        onMessageChange:(body:string)=>{dispatch(updateNewMassageCreateAction(body))},
-        addMessage:()=>{dispatch(addMessageCreateAction())}
+        addMessage:(newMessageText:string)=>{dispatch(addMessageCreateAction(newMessageText))}
     }
 }
 
-export const DialogsContainer = connect(mapStateToProps,mapDispatchToProps)(Dialogs)
+export default compose(
+    connect(mapStateToProps,mapDispatchToProps),
+    withAuthRedirect
+)(Dialogs) as React.ComponentType
