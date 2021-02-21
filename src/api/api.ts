@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const intance = axios.create({
+const instance = axios.create({
     baseURL:`https://social-network.samuraijs.com/api/1.0/`,
     withCredentials: true,
     headers: {"API-KEY": "bc385949-3d41-41a5-85e6-7ba062998611"}
@@ -8,38 +8,53 @@ const intance = axios.create({
 
 export const usersAPI = {
     getUsers(currentPage:number,pageSize:number) {
-        return intance.get(`users?page=${currentPage}&count=${pageSize}`).then(response => response.data)
+        return instance.get(`users?page=${currentPage}&count=${pageSize}`).then(response => response.data)
     }
 }
 export const followAPI={
     unfollow (userID:number) {
-        return intance.delete(`follow/${userID}`).then(response => response.data)
+        return instance.delete(`follow/${userID}`).then(response => response.data)
     },
     follow(userID:number){
-        return intance.post(`follow/${userID}`,{}).then(response => response.data)
+        return instance.post(`follow/${userID}`,{}).then(response => response.data)
     }
+}
+export enum ResultCodesEnum {
+    Success = 0,
+    Error = 1
+}
+
+type meResponseType = {
+    data: { id:number,email:string,login:string },
+    resultCode:ResultCodesEnum,
+    messages:Array<string>
+}
+type loginResponseType = {
+    data: { id:number},
+    resultCode:ResultCodesEnum,
+    messages:Array<string>
 }
 export const authAPI={
     me () {
-        return  intance.get(`auth/me`)
+        return  instance.get<meResponseType>(`auth/me`).then(res => res.data)
     },
     login(email:string,password:string,rememberMe = false) {
-        return intance.post(`auth/login`,{email,password,rememberMe})
+        return instance.post<loginResponseType>(`auth/login`,{email,password,rememberMe}).then(response => response.data)
     },
     logout() {
-        return intance.delete(`auth/login`)
+        return instance.delete(`auth/login`)
     }
 
 }
 export const profileAPI={
     getProfile (userId:string) {
-        return  intance.get(`profile/${userId}`)
+        return  instance.get(`profile/${userId}`)
     },
     getStatus(userId:string) {
-        return  intance.get(`profile/status/${userId}`)
+        return  instance.get(`profile/status/${userId}`)
     },
     updateStatus(status:string) {
-        return  intance.put(`profile/status/`, {status:status})
+        return  instance.put(`profile/status`, {status})
     }
 }
 

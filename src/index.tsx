@@ -3,23 +3,19 @@ import './index.css';
 import {store} from "./redux/redux-store";
 import ReactDOM from "react-dom";
 import {BrowserRouter} from "react-router-dom";
-import {App} from "./App";
+import App from './App'
 import {Provider} from "react-redux";
 
 
-export const rerenderEntireApp = () => {ReactDOM.render(
+ReactDOM.render(
 
         <BrowserRouter>
             <Provider store={store}>
-            <App/>
+            <App store={store}/>
             </Provider>
         </BrowserRouter>,
     document.getElementById('root')
-);}
-rerenderEntireApp()
+)
 
-store.subscribe(() => {
-    rerenderEntireApp()
-})
 
 

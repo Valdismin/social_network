@@ -1,7 +1,7 @@
 import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {postsType} from "../../../redux/porfile_reducer";
+import {stateType} from "../../../redux/porfile_reducer";
 import {Field, InjectedFormProps, reduxForm} from 'redux-form';
 import {maxLengthCreator, required} from "../../../utils/validators";
 import {Textarea} from "../../common/FormsControls/FormsControls";
@@ -9,7 +9,7 @@ import {Textarea} from "../../common/FormsControls/FormsControls";
 
 
 type postsAllType = {
-    postsPropsAll: postsType
+    postsPropsAll: stateType
     addPost: (newPost:string) => void
 }
 
@@ -21,7 +21,7 @@ export const MyPosts = (props: postsAllType) => {
 
     const addNewPost = (values:FormDataType) => {
         props.addPost(values.newPost)
-        debugger
+
     }
 
     return (

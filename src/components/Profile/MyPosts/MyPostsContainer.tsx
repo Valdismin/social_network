@@ -1,8 +1,9 @@
 
-import {addPostCreateAction, stateType} from "../../../redux/porfile_reducer";
+import {addPostCreateAction} from "../../../redux/porfile_reducer";
 import {MyPosts} from "./MyPosts";
 import {AddPostType} from "../../../redux/store";
 import {connect} from "react-redux";
+import {stateType} from "../../../redux/redux-store";
 
 
 let mapStateToProps = (state:stateType) => {

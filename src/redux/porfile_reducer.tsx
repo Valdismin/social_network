@@ -7,18 +7,10 @@ export type myPostPropsType = {
     message: string
     likesCount: number
 }
-export type stateType = {
-    postsPropsAll: postsType
-}
-export type postsType = {
-    postsData: Array<myPostPropsType>
-    profile: ProfileType | null
-    status: string
-}
 export type ProfileType = {
     userId: number
     lookingForAJob: boolean
-    lookingForAJobDescription: string | null
+    lookingForAJobDescription: string
     fullName: string
     contacts: ContactsType
     photos: PhotosType
@@ -51,7 +43,7 @@ export type updateNewMessageType = {
 }
 export type setUserProfileType = {
     type: "SET-USER-PROFILE"
-    profile: string
+    profile: ProfileType
 }
 export type setStatusType = {
     type: "SET-STATUS"
@@ -60,19 +52,19 @@ export type setStatusType = {
 
 
 export type dispatchType = AddPostType | setUserProfileType | updateNewPostType | setStatusType
-
+export type stateType = typeof initialState
 let initialState = {
     postsData: [
         {id: 1, message: 'Hi,how are you?', likesCount: 12},
         {id: 2, message: 'It is my first post', likesCount: 11},
         {id: 3, message: 'Bonjour', likesCount: 3},
     ],
-    profile: null,
+    profile: null as ProfileType | null,
     status: ""
 }
 
 
-export const profileReducer = (state: postsType = initialState, action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType | setUserProfileType | setStatusType) => {
+export const profileReducer = (state = initialState, action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType | setUserProfileType | setStatusType):stateType => {
     switch (action.type) {
         case "ADD-POST":
             let NewPost: myPostPropsType = {
@@ -97,7 +89,7 @@ export const profileReducer = (state: postsType = initialState, action: AddPostT
 export const addPostCreateAction = (newPost: string): AddPostType => {
     return {type: "ADD-POST", newPost}
 }
-export const setUserProfile = (profile: string): setUserProfileType => {
+export const setUserProfile = (profile: ProfileType): setUserProfileType => {
     return {type: "SET-USER-PROFILE", profile}
 }
 export const setStatus = (status: string): setStatusType => {
@@ -119,7 +111,7 @@ export const getStatus = (userId: string): ThunkAction<Promise<void>, stateType,
 export const updateStatus = (status: string): ThunkAction<Promise<void>, stateType, unknown, dispatchType> => {
     return async (dispatch) => {
         let response = await profileAPI.updateStatus(status)
-        if (response.data.resultCode === 0) {
+        if (response.data.resultCode == 0) {
             dispatch(setStatus(status))
         }
     }

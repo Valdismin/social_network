@@ -1,14 +1,20 @@
-import React, {ChangeEvent} from "react";
-import {useDispatch} from "react-redux";
+import React, {ChangeEvent, useState} from "react";
+import {ProfileType} from "../../../redux/porfile_reducer";
+
 
 
 type profileStatusType = {
     status: string,
     updateStatus : (status:string) => void
 }
+type stateType = {
+    editMode:boolean,
+    status:string
+}
 
 
-export class ProfileStatus extends React.Component <profileStatusType> {
+export class ProfileStatus extends React.Component <profileStatusType,stateType> {
+
     state = {
         editMode: false,
         status:this.props.status
@@ -33,7 +39,7 @@ export class ProfileStatus extends React.Component <profileStatusType> {
         })
     }
 
-    componentDidUpdate(prevProps: Readonly<profileStatusType>, prevState: profileStatusType) {
+    componentDidUpdate(prevProps: profileStatusType, prevState: stateType) {
         if(prevState.status !== this.props.status ) {
             this.setState({
                 status:this.props.status
@@ -42,6 +48,7 @@ export class ProfileStatus extends React.Component <profileStatusType> {
     }
 
     render() {
+        debugger
         return (<div>
                 {!this.state.editMode &&
                 <div>
@@ -55,3 +62,8 @@ export class ProfileStatus extends React.Component <profileStatusType> {
         )
     }
 }
+
+
+
+
+

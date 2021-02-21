@@ -25,7 +25,7 @@ export const ProfileInfo = (props:profileInfoType) => {
             </div>
             <div className={s.description}>
                 <img src={props.profile.photos.large}/>
-                <ProfileStatus status={props.status} updateStatus={updateStatus}/>
+                <ProfileStatus status={props.status} updateStatus={updateStatus} />
             </div>
         </div>
     )

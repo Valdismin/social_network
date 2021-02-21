@@ -10,7 +10,9 @@ import {compose} from "redux";
 
 type mapStateToPropsType = {
     profile: null | ProfileType
-    status:string
+    status:string,
+    autorisedUserId:number | null,
+    isAuth:boolean
 }
 type pathParamsType = {
     userId: string
@@ -25,14 +27,18 @@ type PropsType = RouteComponentProps<pathParamsType> & ownPropsType
 
 
 const ProfileContainer = (props: PropsType) => {
+
     useEffect(() => {
         let userId = props.match.params.userId
         if (!userId) {
-            userId = "12449"
+            userId = String(props.autorisedUserId)
+            if(!userId) {
+                //this.props.history.push("/login")
+            }
         }
         props.getUserProfile(userId)
         props.getStatus(userId)
-    }, [])
+    },[])
 
 
     return (
@@ -41,10 +47,10 @@ const ProfileContainer = (props: PropsType) => {
 
 let mapStateToProps = (state: stateType): mapStateToPropsType => {
     return {
-        // @ts-ignore
         profile: state.postsPropsAll.profile,
-        // @ts-ignore
-        status:state.postsPropsAll.status
+        status:state.postsPropsAll.status,
+        autorisedUserId:state.auth.userID,
+        isAuth:state.auth.isAuth
     }
 }
 
