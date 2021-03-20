@@ -3,9 +3,10 @@ import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogsItme/DialogsItem";
 import {Message} from "./Message/Message";
 import {dialogsAllType} from "../../redux/store";
-import {Field, InjectedFormProps, reduxForm} from 'redux-form';
-import {Textarea} from "../common/FormsControls/FormsControls";
-import {maxLengthCreator, required} from "../../utils/validators";
+import {useFormik} from "formik";
+
+import {Button, TextField} from "@material-ui/core";
+
 
 
 export type dialogsPropsType2 = {
@@ -13,16 +14,33 @@ export type dialogsPropsType2 = {
     addMessage: (newMessageText: string) => void
     dialogsPropsAll: dialogsAllType
 }
+type FormikErrorType = {
+    message?: string
+}
 
 
 export const Dialogs = (props: dialogsPropsType2) => {
 
     let dialogsElements = props.dialogsPropsAll.dialogsData.map(d => <DialogItem name={d.name} id={d.id}/>);
     let messagesElements = props.dialogsPropsAll.messagesData.map(m => <Message message={m.message}/>)
+    const formik = useFormik({
+        initialValues:{
+            message:''
+        },
+        validate:(values) => {
+            const errors:FormikErrorType={}
+            if(values.message.length > 30) {
+                errors.message = ''
+            }
+            return errors
+        }
+        ,
+        onSubmit: value => {
+            props.addMessage(value.message)
+            formik.resetForm()
+        }
+    })
 
-    const addNewMessage = (values: FormDataType) => {
-        props.addMessage(values.newMessageText)
-    }
 
     return (
         <div className={s.dialogs}>
@@ -33,34 +51,21 @@ export const Dialogs = (props: dialogsPropsType2) => {
                 <div>{messagesElements}</div>
                 <div>
                     <div>
-                        <AddMessageFormRedux onSubmit={addNewMessage}/>
+                        <form onSubmit={formik.handleSubmit}>
+                            <div className={s.textArea_Button}>
+                                <TextField
+                                    label="Add message"
+                                    margin="normal"
+                                    name="message"
+                                    {...formik.getFieldProps('message')}
+                                />
+                                <Button variant="outlined" type={'submit'}  color={'primary'}>Add message</Button>
+                            </div>
+                        </form>
                     </div>
-
                 </div>
             </div>
 
         </div>
     )
 }
-const maxLength = maxLengthCreator(30)
-const AddMessageForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
-
-    return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field component={Textarea}
-                       name={"newMessageText"}
-                       placeholder={"Enter your message"}
-                       validate={[required,maxLength]}/>
-                <div>
-                    <button>Отправить сообщение</button>
-                </div>
-            </div>
-
-        </form>
-    )
-}
-type FormDataType = {
-    newMessageText: string
-}
-const AddMessageFormRedux = reduxForm<FormDataType>({form: "dialogAddMessageForm"})(AddMessageForm)

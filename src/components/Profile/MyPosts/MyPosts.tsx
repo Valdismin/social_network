@@ -1,35 +1,57 @@
 import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {stateType} from "../../../redux/porfile_reducer";
-import {Field, InjectedFormProps, reduxForm} from 'redux-form';
-import {maxLengthCreator, required} from "../../../utils/validators";
-import {Textarea} from "../../common/FormsControls/FormsControls";
+import {addPostCreateAction, stateType} from "../../../redux/porfile_reducer";
+import {useFormik} from "formik";
+import {useDispatch} from "react-redux";
+import {Button, TextField} from "@material-ui/core";
+
 
 
 
 type postsAllType = {
     postsPropsAll: stateType
-    addPost: (newPost:string) => void
+}
+type FormikErrorType = {
+    post?: string
 }
 
 
 export const MyPosts = (props: postsAllType) => {
+    const dispatch = useDispatch()
+    const formik = useFormik({
+        initialValues: {
+            post: ''
+        },
+        validate: (values) => {
+            const errors: FormikErrorType = {};
+            if (values.post.length > 50) {
+                errors.post = '';
+            }
+            return errors;
+        },
+        onSubmit: value => {
+            dispatch(addPostCreateAction(value.post))
+            formik.resetForm()
+        }
+    })
 
     let postElements = props.postsPropsAll.postsData.map(p => <Post message={p.message} count_likes={p.likesCount}/>)
-
-
-    const addNewPost = (values:FormDataType) => {
-        props.addPost(values.newPost)
-
-    }
 
     return (
         <div className={s.postBlock}>
             <h3>My posts</h3>
-            <div>
-                <MyPostsFormRedux onSubmit={addNewPost}/>
-            </div>
+            <form onSubmit={formik.handleSubmit}>
+                <div className={s.textArea_Button}>
+                <TextField
+                    label="Create Post"
+                    margin="normal"
+                    name="post"
+                    {...formik.getFieldProps('post')}
+                />
+                <Button type={'submit'} variant="outlined" color={'primary'}>Add post</Button>
+                </div>
+            </form>
             <div className={s.content}>
                 {postElements}
             </div>
@@ -37,24 +59,3 @@ export const MyPosts = (props: postsAllType) => {
     )
 }
 
-type FormDataType = {
-    newPost:string
-}
-
-const maxLength = maxLengthCreator(30)
-
-const MyPostsForm :React.FC <InjectedFormProps<FormDataType>>  = (props) => {
-    return(
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field component={Textarea} name={"newPost"} placeholder={"Enter your post"}
-                validate={[required,maxLength]}/>
-            </div>
-            <div>
-                <button >Add post</button>
-            </div>
-        </form>
-    )
-}
-
-const MyPostsFormRedux = reduxForm<FormDataType>({form:"addPostForm"}) (MyPostsForm)

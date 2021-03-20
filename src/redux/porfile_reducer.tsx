@@ -30,17 +30,6 @@ export type AddPostType = {
     type: "ADD-POST",
     newPost: string
 }
-export type updateNewPostType = {
-    type: "UPDATE-NEW-POST-CHANGE"
-    newText: string
-}
-export type AddMessageType = {
-    type: "ADD-MASSAGE"
-}
-export type updateNewMessageType = {
-    type: "UPDATE-NEW-MASSAGE-CHANGE"
-    newMessText: string
-}
 export type setUserProfileType = {
     type: "SET-USER-PROFILE"
     profile: ProfileType
@@ -51,7 +40,7 @@ export type setStatusType = {
 }
 
 
-export type dispatchType = AddPostType | setUserProfileType | updateNewPostType | setStatusType
+export type dispatchType = AddPostType | setUserProfileType | setStatusType
 export type stateType = typeof initialState
 let initialState = {
     postsData: [
@@ -64,7 +53,7 @@ let initialState = {
 }
 
 
-export const profileReducer = (state = initialState, action: AddPostType | updateNewPostType | AddMessageType | updateNewMessageType | setUserProfileType | setStatusType):stateType => {
+export const profileReducer = (state = initialState, action: AddPostType | setUserProfileType | setStatusType): stateType => {
     switch (action.type) {
         case "ADD-POST":
             let NewPost: myPostPropsType = {
@@ -86,33 +75,50 @@ export const profileReducer = (state = initialState, action: AddPostType | updat
             return state
     }
 }
-export const addPostCreateAction = (newPost: string): AddPostType => {
-    return {type: "ADD-POST", newPost}
-}
-export const setUserProfile = (profile: ProfileType): setUserProfileType => {
-    return {type: "SET-USER-PROFILE", profile}
-}
-export const setStatus = (status: string): setStatusType => {
-    return {type: "SET-STATUS", status}
-}
+export const addPostCreateAction = (newPost: string): AddPostType => ({
+    type: "ADD-POST", newPost})as const
 
-export const getUserProfile = (userId: string) : ThunkAction<Promise<void>, stateType, unknown, dispatchType>=> {
+export const setUserProfile = (profile: ProfileType): setUserProfileType => ({
+   type: "SET-USER-PROFILE", profile
+})as const
+export const setStatus = (status: string): setStatusType => (
+    {type: "SET-STATUS", status}
+) as const
+
+export const getUserProfile = (userId: string): ThunkAction<Promise<void>, stateType, unknown, ActionsTypes> => {
     return async (dispatch) => {
         let response = await profileAPI.getProfile(userId)
-        dispatch(setUserProfile(response.data))
+        dispatch(setUserProfile(response))
     }
 }
-export const getStatus = (userId: string): ThunkAction<Promise<void>, stateType, unknown, dispatchType> => {
+export const getStatus = (userId: number): ThunkAction<Promise<void>, stateType, unknown, ActionsTypes> => {
     return async (dispatch) => {
-        let response = await profileAPI.getStatus(userId)
-        dispatch(setStatus(response.data))
+        await profileAPI.getStatus(userId).then(response => dispatch(setStatus(response.data)))
+
     }
 }
-export const updateStatus = (status: string): ThunkAction<Promise<void>, stateType, unknown, dispatchType> => {
+export const updateStatus = (status: string): ThunkAction<Promise<void>, stateType, unknown, ActionsTypes> => {
     return async (dispatch) => {
-        let response = await profileAPI.updateStatus(status)
-        if (response.data.resultCode == 0) {
-            dispatch(setStatus(status))
-        }
+        await profileAPI.updateStatus(status).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(setStatus(status))
+            }
+        })
     }
 }
+
+/*export const updateStatus = (status:string): ThunkAction<Promise<void>, stateType, unknown, ActionsTypes> => (dispatch) => {
+    debugger
+    profileAPI.updateStatus(status)
+        .then(response => {
+            if(response.data.resultCode === 0) {
+                dispatch(setStatus(status))
+            }
+        })
+}*/
+
+export type ActionsTypes =
+    ReturnType<typeof addPostCreateAction>
+    | ReturnType<typeof setUserProfile>
+    | ReturnType<typeof setStatus>
+    | ReturnType<typeof setStatus>

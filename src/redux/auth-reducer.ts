@@ -68,9 +68,10 @@ export const getAuthUserData = (): ThunkAction<void, stateType, unknown, dispatc
         }
     }
 }
-export const login = (email: string, password: string, rememberMe: boolean): ThunkAction<Promise<void>, stateType, unknown, dispatchType> => {
+export const login = (data:dataType): ThunkAction<void, stateType, unknown, dispatchType>=> {
+    debugger
     return async (dispatch) => {
-        let response = await authAPI.login(email, password, rememberMe)
+        let response = await authAPI.login(data.email, data.password, data.rememberMe)
         if (response.resultCode === ResultCodesEnum.Success) {
             dispatch(getAuthUserData())
         } else {
@@ -89,4 +90,6 @@ export const logout = (): ThunkAction<Promise<void>, stateType, unknown, dispatc
 }
 
 export type getAuthUserDataType = ReturnType<typeof getAuthUserData>
-
+export type dataType = {
+    email:string,password:string,rememberMe:boolean
+}

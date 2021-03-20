@@ -41,7 +41,7 @@ export const InitializedSuccess = () => ({
 export const initializeApp = ()  => {
     return async (dispatch:any) => {
         let promise = dispatch(getAuthUserData())
-        promise.then(() => {
+        promise .then(() => {
             dispatch(InitializedSuccess())
         })
 

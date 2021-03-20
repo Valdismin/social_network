@@ -1,8 +1,11 @@
 .header{
     grid-area:header;
-    background-color: darkkhaki;
+    background-color: darkcyan;
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .header img{
@@ -10,8 +13,14 @@
     border-bottom-left-radius: 15px;
 }
 .loginBlock{
-    float: right;
+    float:right
 }
 .loginBlock a{
      color:white
+}
+.button{
+    background-color: silver !important;
+}
+.logButton{
+    color: black !important;
 }

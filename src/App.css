@@ -9,10 +9,11 @@
     grid-template-columns: 2fr 10fr;
     grid-gap: 10px;
     background-color: gainsboro;
+    height: 100vh;
 }
 
 .app-wrapper-content{
-
     grid-area: content;
-    background-color: coral;
+    background-color: silver;
+    width: 170vh;
 }

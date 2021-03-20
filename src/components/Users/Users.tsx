@@ -3,8 +3,8 @@ import styles from "./users.module.css";
 import userPhoto from "../../assets/images/user.png";
 import {usersDataType} from "../../redux/users_reducer";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
-import {followAPI} from "../../api/api";
+import {Button} from "@material-ui/core";
+
 
 
 type usersAllType2 = {
@@ -45,19 +45,19 @@ export const Users = (props: usersAllType2) => {
                    </NavLink>
                </div>
                 <div>
-                    {u.followed ? <button disabled={props.followingInProgress.some(id => id === u.id)}
+                    {u.followed ? <Button variant="contained" size="small" color="primary" disabled={props.followingInProgress.some(id => id === u.id)}
                                           onClick={() => {
                                               props.unfollow(u.id)
                                           }}
-                        >Unfollow</button>
+                        >Unfollow</Button>
 
                         :
 
-                        <button disabled={props.followingInProgress.some(id => id === u.id)}
+                        <Button variant="contained" size="small" color="primary" disabled={props.followingInProgress.some(id => id === u.id)}
                                 onClick={() => {
                                     props.follow(u.id)
                                 }}
-                        >Follow</button>}
+                        >Follow</Button>}
                 </div>
             </span>
                     <span>

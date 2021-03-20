@@ -1,19 +1,19 @@
 import React from "react";
 import s from './ProfileInfo.module.css'
-import {ProfileType, updateStatus} from "../../../redux/porfile_reducer";
-import {Preloader} from "../../common/Preloader/preloader";
-import {ProfileStatus} from "./ProfileStatus";
+import {ProfileType} from "../../../redux/porfile_reducer";
+import {ProfileStatusWithHooks2} from "./ProfileStatusWithHooks2";
+import {LinearProgress} from "@material-ui/core";
 
 type profileInfoType = {
     profile:ProfileType | null,
-    status:string,
+    status:string| null,
     updateStatus : (status:string) => void
 }
 
 export const ProfileInfo = (props:profileInfoType) => {
 
-    if(!props.profile) {
-        return <Preloader/>
+    if(!props.profile || !props.status) {
+        return <LinearProgress />
     }
 
     return (
@@ -25,7 +25,7 @@ export const ProfileInfo = (props:profileInfoType) => {
             </div>
             <div className={s.description}>
                 <img src={props.profile.photos.large}/>
-                <ProfileStatus status={props.status} updateStatus={updateStatus} />
+                <ProfileStatusWithHooks2 status={props.status} updateStatus={props.updateStatus} />
             </div>
         </div>
     )

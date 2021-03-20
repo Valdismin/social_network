@@ -16,3 +16,7 @@
 .messages {
     color:white;
 }
+.textArea_Button{
+    display: flex;
+    align-items: center;
+}

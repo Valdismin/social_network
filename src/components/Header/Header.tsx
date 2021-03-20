@@ -1,6 +1,8 @@
 import React from "react";
 import s from './Header.module.css'
 import {NavLink} from "react-router-dom";
+import { Button } from "@material-ui/core";
+
 
 type propsType = {
     isAuth:boolean,
@@ -11,10 +13,10 @@ type propsType = {
 export const Header = (props:propsType) => {
     return (
         <header className={s.header}>
-            <img
-                src='https://i.insider.com/50083a5decad04460500000d?width=1100&format=jpeg&auto=webp'/>
                 <div className={s.loginBlock}>
-                    {props.isAuth ? <div>{props.login} - <button onClick={props.logout}>Log out</button></div> : <NavLink to={'/login'}>Login</NavLink>}
+                    {props.isAuth
+                        ? <div>{props.login} - <Button className={s.button} onClick={props.logout}>Log out</Button></div>
+                        : <button><NavLink className={s.logButton} to={'/login'}>Login</NavLink></button>}
                 </div>
         </header>
     )
