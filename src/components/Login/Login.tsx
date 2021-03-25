@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {login} from "../../redux/auth-reducer";
 import {stateType} from "../../redux/redux-store";
@@ -41,15 +41,16 @@ export const Login = () => {
             return errors;
         },
         onSubmit: value => {
-            debugger
             dispatch(login(value))
-            formik.resetForm()
         }
     })
 
-    if (isAuth) {
-        return <Redirect to={"/profile"}/>
-    }
+        if (isAuth) {
+            debugger
+            return <Redirect to={"/profile"}/>
+        }
+
+
 
     return <Grid container justify="center">
         <Grid item xs={4}>
@@ -74,6 +75,7 @@ export const Login = () => {
                         {formik.touched.password &&
                         formik.errors.password ? <div style={{color: "red"}}>{formik.errors.password}</div> : null}
                         <FormControlLabel
+                            name="rememberMe"
                             label={"Remember me"}
                             {...formik.getFieldProps('rememberMe')}
                             control={<Checkbox/>}

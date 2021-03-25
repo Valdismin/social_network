@@ -5,16 +5,16 @@
 }
 
 .dialogsItem a {
-    color:white;
+    color:black;
     text-decoration: none;
 }
 
 .dialogsItem a.active {
-    color:black;
+    color: brown;
 }
 
 .messages {
-    color:white;
+    color:black;
 }
 .textArea_Button{
     display: flex;

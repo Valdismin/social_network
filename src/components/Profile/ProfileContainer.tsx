@@ -11,7 +11,6 @@ type mapStateToPropsType = {
     profile: null | ProfileType
     status:string| null,
     autorisedUserId:number | null,
-    isAuth:boolean
 }
 type pathParamsType = {
     userId: string
@@ -37,7 +36,6 @@ const ProfileContainer = (props: PropsType) => {
     if (props.profile) {
         props.getStatus(props.profile.userId)
     }
-
     return (
         <Profile profile={props.profile} status = {props.status} updateStatus={props.updateStatus}/>)
 }
@@ -46,8 +44,7 @@ let mapStateToProps = (state: stateType): mapStateToPropsType => {
     return {
         profile: state.postsPropsAll.profile,
         status:state.postsPropsAll.status,
-        autorisedUserId:state.auth.userID,
-        isAuth:state.auth.isAuth
+        autorisedUserId:state.auth.id,
     }
 }
 

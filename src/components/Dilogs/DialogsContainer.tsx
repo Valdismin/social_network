@@ -7,9 +7,12 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
 
+
+
 let mapStateToProps = (state:stateType) => {
     return {
         dialogsPropsAll:state.dialogsPropsAll,
+        isAuth:state.auth.isAuth
     }
 }
 let mapDispatchToProps = (dispatch:(action: AddMessageType ) => void)=> {

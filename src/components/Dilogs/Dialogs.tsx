@@ -10,9 +10,9 @@ import {Button, TextField} from "@material-ui/core";
 
 
 export type dialogsPropsType2 = {
-    onMessageChange: (body: string) => void
     addMessage: (newMessageText: string) => void
     dialogsPropsAll: dialogsAllType
+    isAuth:boolean
 }
 type FormikErrorType = {
     message?: string

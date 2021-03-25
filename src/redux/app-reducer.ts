@@ -17,7 +17,7 @@ export type inStateType = {
 export type stateType = {
     initialize: inStateType
 }
-type dispatchType = ReturnType<typeof InitializedSuccess> | getAuthUserDataType
+//type dispatchType = ReturnType<typeof InitializedSuccess> | getAuthUserDataType
 
 let initialState = {
     initialized:false
@@ -36,15 +36,14 @@ export const appReducer = (state: inStateType = initialState, action: ActionsTyp
 
 export const InitializedSuccess = () => ({
     type: SET_INITIALIZED
-})
+}as const)
 
 export const initializeApp = ()  => {
-    return async (dispatch:any) => {
-        let promise = dispatch(getAuthUserData())
-        promise .then(() => {
+    debugger
+    return (dispatch:any) => {
+        dispatch(getAuthUserData()).then(() => {
             dispatch(InitializedSuccess())
         })
-
     }
 }
 

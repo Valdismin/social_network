@@ -1,4 +1,3 @@
-import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 import {ThunkAction} from "redux-thunk";
 
