@@ -42,11 +42,11 @@ export const Login = () => {
         },
         onSubmit: value => {
             dispatch(login(value))
+            formik.resetForm()
         }
     })
 
         if (isAuth) {
-            debugger
             return <Redirect to={"/profile"}/>
         }
 

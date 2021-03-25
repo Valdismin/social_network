@@ -39,7 +39,6 @@ export const InitializedSuccess = () => ({
 }as const)
 
 export const initializeApp = ()  => {
-    debugger
     return (dispatch:any) => {
         dispatch(getAuthUserData()).then(() => {
             dispatch(InitializedSuccess())

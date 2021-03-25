@@ -8,7 +8,6 @@ type mapStateToPropsForRedirectType = {
 }
 
 const mapStateToPropsForRedirect = (state:stateType):mapStateToPropsForRedirectType => {
-    debugger
     return {
         isAuth:state.auth.isAuth
     }
@@ -16,7 +15,6 @@ const mapStateToPropsForRedirect = (state:stateType):mapStateToPropsForRedirectT
 
 export function withAuthRedirect <T>(Component:ComponentType<T>)  {
     const RedirectComponent = (props:mapStateToPropsForRedirectType) => {
-        debugger
         let {isAuth,...restProps} = props
             if(!props.isAuth) return <Redirect to='/login' />
             return (
