@@ -29,6 +29,10 @@ export type AddPostType = {
     type: "ADD-POST",
     newPost: string
 }
+export type DeletePostType = {
+    type: "DELETE-POST",
+    postId: number
+}
 export type setUserProfileType = {
     type: "SET-USER-PROFILE"
     profile: ProfileType
@@ -52,7 +56,7 @@ let initialState = {
 }
 
 
-export const profileReducer = (state = initialState, action: AddPostType | setUserProfileType | setStatusType): stateType => {
+export const profileReducer = (state = initialState, action: ActionsTypes): stateType => {
     switch (action.type) {
         case "ADD-POST":
             let NewPost: myPostPropsType = {
@@ -70,18 +74,24 @@ export const profileReducer = (state = initialState, action: AddPostType | setUs
             return {...state, profile: action.profile}
         case "SET-STATUS":
             return {...state, status: action.status}
+        case "DELETE-POST":
+            return {...state, postsData: state.postsData.filter((p) => p.id !== action.postId)}
         default :
             return state
     }
 }
 export const addPostCreateAction = (newPost: string): AddPostType => ({
-    type: "ADD-POST", newPost})as const
+    type: "ADD-POST", newPost
+}) as const
 
 export const setUserProfile = (profile: ProfileType): setUserProfileType => ({
-   type: "SET-USER-PROFILE", profile
-})as const
+    type: "SET-USER-PROFILE", profile
+}) as const
 export const setStatus = (status: string): setStatusType => (
     {type: "SET-STATUS", status}
+) as const
+export const deletePost = (postId: number): DeletePostType => (
+    {type: "DELETE-POST", postId}
 ) as const
 
 export const getUserProfile = (userId: string): ThunkAction<Promise<void>, stateType, unknown, ActionsTypes> => {
@@ -92,32 +102,22 @@ export const getUserProfile = (userId: string): ThunkAction<Promise<void>, state
 }
 export const getStatus = (userId: number): ThunkAction<Promise<void>, stateType, unknown, ActionsTypes> => {
     return async (dispatch) => {
-        await profileAPI.getStatus(userId).then(response => dispatch(setStatus(response.data)))
+        let response = await profileAPI.getStatus(userId)
+        dispatch(setStatus(response.data))
 
     }
 }
 export const updateStatus = (status: string): ThunkAction<Promise<void>, stateType, unknown, ActionsTypes> => {
     return async (dispatch) => {
-        await profileAPI.updateStatus(status).then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setStatus(status))
-            }
-        })
+        let response = await profileAPI.updateStatus(status)
+        if (response.data.resultCode === 0) {
+            dispatch(setStatus(status))
+        }
     }
 }
-
-/*export const updateStatus = (status:string): ThunkAction<Promise<void>, stateType, unknown, ActionsTypes> => (dispatch) => {
-    debugger
-    profileAPI.updateStatus(status)
-        .then(response => {
-            if(response.data.resultCode === 0) {
-                dispatch(setStatus(status))
-            }
-        })
-}*/
 
 export type ActionsTypes =
     ReturnType<typeof addPostCreateAction>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
-    | ReturnType<typeof setStatus>
+    | ReturnType<typeof deletePost>

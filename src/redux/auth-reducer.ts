@@ -70,13 +70,12 @@ export const setError = (error: string) => ({type: "SET_ERROR", error} as const)
 
 
 export const getAuthUserData = (): ThunkAction<void, stateType, unknown, dispatchType> => {
-    return (dispatch) => {
-        return authAPI.me().then((response) => {
-                if (response.resultCode === ResultCodesEnum.Success) {
-                    dispatch(setAuthUserData(response.data, true))
-                }
-            }
-        )
+    return async (dispatch) => {
+        let response = await authAPI.me()
+
+        if (response.resultCode === ResultCodesEnum.Success) {
+            dispatch(setAuthUserData(response.data, true))
+        }
     }
 }
 export const login = (data: dataType): ThunkAction<void, stateType, unknown, dispatchType> => {
@@ -84,7 +83,7 @@ export const login = (data: dataType): ThunkAction<void, stateType, unknown, dis
         let response = await authAPI.login(data.email, data.password, data.rememberMe)
         if (response.resultCode === ResultCodesEnum.Success) {
             authAPI.me()
-            dispatch(setAuthUserData(response.data.data,true))
+            dispatch(setAuthUserData(response.data.data, true))
         } else {
             let message = response.messages.length > 0 ? response.messages[0] : "Some error"
             dispatch(setError(message))

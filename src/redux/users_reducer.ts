@@ -129,7 +129,7 @@ export const usersReducer = (state: userType = initialState, action: dispatchTyp
         case TOGGLE_IS_FOLLOWING_PROGRESS:
             return {
                 ...state,
-                followingInProgress: action.isFetching ? [...state.followingInProgress, action.userId] : [...state.followingInProgress.filter(id => id != action.userId)]
+                followingInProgress: action.isFetching ? [...state.followingInProgress, action.userId] : [...state.followingInProgress.filter(id => id !== action.userId)]
             }
         default :
             return state
@@ -147,23 +147,27 @@ export const getUsers = (currentPage: number, pageSize: number): ThunkType => {
         dispatch(setTotalUsersCount(data.totalCount))
     }
 }
+
+const followUnfollowFlow = async (dispatch:any,userId:number,apiMethod:any,actionCreator:any) => {
+    dispatch(toggleIsFollowingProgress(true, userId))
+    let data = await apiMethod(userId)
+    if (data.resultCode === 0) {
+        dispatch(actionCreator(userId))
+    }
+    dispatch(toggleIsFollowingProgress(false, userId))
+}
+
 export const getFollow = (userId: number): ThunkType => {
     return async (dispatch) => {
-        dispatch(toggleIsFollowingProgress(true, userId))
-        let data = await followAPI.follow(userId)
-        if (data.resultCode === 0) {
-            dispatch(follow(userId))
-        }
-        dispatch(toggleIsFollowingProgress(false, userId))
+        let apiMethod = followAPI.follow.bind(followAPI)
+        let actionCreator = follow
+        followUnfollowFlow(dispatch,userId,apiMethod,actionCreator)
     }
 }
 export const getUnfollow = (userId: number): ThunkType => {
     return async (dispatch) => {
-        dispatch(toggleIsFollowingProgress(true, userId))
-        let data = await followAPI.unfollow(userId)
-        if (data.resultCode === 0) {
-            dispatch(unfollow(userId))
-        }
-        dispatch(toggleIsFollowingProgress(false, userId))
+        let apiMethod = followAPI.unfollow.bind(followAPI)
+        let actionCreator = unfollow
+        followUnfollowFlow(dispatch,userId,apiMethod,actionCreator)
     }
 }
