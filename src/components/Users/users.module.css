@@ -1,4 +1,14 @@
-
+.users{
+    display: flex;
+    flex-wrap: wrap;
+}
+.user{
+    margin:10px;
+    padding:10px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
 .userPhoto{
     width:100px;
     heigth:50px

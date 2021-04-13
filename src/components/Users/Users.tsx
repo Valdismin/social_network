@@ -22,37 +22,23 @@ type usersAllType2 = {
 export const Users = (props: usersAllType2) => {
 
     return <div className={styles.usersWrapper}>
+
         <Paginator currentPage={props.currentPage}
                    onPageChanged={props.onPageChanged}
                    pageSize={props.pageSize}
                    totalItemsCount={props.totalUsersCount}/>
-        {
-            props.users.map(u => <div key={u.id}>
+
+        <div className={styles.users}>
+            {
+                props.users.map(u => <div className={styles.user} key={u.id}>
             <span>
                <div>
                    <NavLink to={"profile/" + u.id}>
                   <img src={u.photos.small != null ? u.photos.small : userPhoto} className={styles.userPhoto}/>
                    </NavLink>
                </div>
-                <div>
-                    {u.followed ? <Button variant="contained" size="small" color="primary"
-                                          disabled={props.followingInProgress.some(id => id === u.id)}
-                                          onClick={() => {
-                                              props.unfollow(u.id)
-                                          }}
-                        >Unfollow</Button>
-
-                        :
-
-                        <Button variant="contained" size="small" color="primary"
-                                disabled={props.followingInProgress.some(id => id === u.id)}
-                                onClick={() => {
-                                    props.follow(u.id)
-                                }}
-                        >Follow</Button>}
-                </div>
             </span>
-                    <span>
+                        <span>
                     <span>
                         <div>{u.name}</div>
                         <div>{u.status}</div>
@@ -62,8 +48,26 @@ export const Users = (props: usersAllType2) => {
                         <div>{"u.location.city"}</div>
                     </span>
                 </span>
-                </div>
-            )
-        }
+                        <div>
+                            {u.followed ? <Button variant="contained" size="small" color="primary"
+                                                  disabled={props.followingInProgress.some(id => id === u.id)}
+                                                  onClick={() => {
+                                                      props.unfollow(u.id)
+                                                  }}
+                                >Unfollow</Button>
+
+                                :
+
+                                <Button variant="contained" size="small" color="primary"
+                                        disabled={props.followingInProgress.some(id => id === u.id)}
+                                        onClick={() => {
+                                            props.follow(u.id)
+                                        }}
+                                >Follow</Button>}
+                        </div>
+                    </div>
+                )
+            }
+        </div>
     </div>
 }

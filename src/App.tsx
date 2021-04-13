@@ -12,6 +12,7 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import {stateType} from "./redux/redux-store";
 import {Preloader} from "./components/common/Preloader/preloader";
+import {LinearProgress} from "@material-ui/core";
 
 class App extends React.Component<PropsType> {
 
@@ -21,7 +22,7 @@ class App extends React.Component<PropsType> {
 
     render() {
         if (!this.props.initialized) {
-            return <Preloader/>
+            return <LinearProgress />
         }
 
 

@@ -1,4 +1,3 @@
-
 import {addPostCreateAction} from "../../../redux/porfile_reducer";
 import {MyPosts} from "./MyPosts";
 import {AddPostType} from "../../../redux/store";

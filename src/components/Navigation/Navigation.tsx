@@ -6,6 +6,7 @@ import {NavLink} from "react-router-dom";
 export const Navigation = () => {
     return (
         <nav className={classes.nav}>
+            <div className={classes.buttons}>
              <div className={classes.item}>
                 <NavLink to='/profile' activeClassName={classes.active}>Profile</NavLink>
             </div>
@@ -24,6 +25,7 @@ export const Navigation = () => {
            {/* <div className={classes.itemSettings}>
                 <NavLink to='/settings' activeClassName={classes.active}>Settings</NavLink>
             </div>*/}
+            </div>
         </nav>
     )
 }

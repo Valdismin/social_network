@@ -15,4 +15,6 @@
     grid-area: content;
     background-color: silver;
     width: 170vh;
+    border-radius: 10px;
+    margin-right: 10px;
 }

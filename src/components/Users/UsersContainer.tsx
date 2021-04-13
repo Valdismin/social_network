@@ -5,7 +5,6 @@ import {
     usersDataType, toggleIsFollowingProgress, getUsers, getFollow, getUnfollow
 } from "../../redux/users_reducer";
 import {Users} from "./Users";
-import {Preloader} from "../common/Preloader/preloader";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import { stateType } from '../../redux/redux-store';
@@ -16,6 +15,7 @@ import {
     getTotalUsersCount,
     getUsersContainer
 } from "../../redux/users-selectors";
+import {LinearProgress} from "@material-ui/core";
 
 type usersAllType = {
     users: Array<usersDataType>
@@ -44,7 +44,7 @@ export class UsersContainer extends React.Component<usersAllType> {
 
     render() {
         return <>
-            {this.props.isFetching ? <Preloader/> :
+            {this.props.isFetching ? <LinearProgress /> :
             <Users totalUsersCount={this.props.totalUsersCount}
                    pageSize={this.props.pageSize}
                    currentPage={this.props.currentPage}

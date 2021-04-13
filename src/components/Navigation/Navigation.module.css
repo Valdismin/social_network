@@ -1,19 +1,23 @@
 .nav {
     grid-area: nav;
-    background-color: sandybrown;
     padding: 20px;
     background-color: gainsboro;
     color: azure;
 }
+.buttons{
+    display: flex;
+    flex-direction: column;
+    padding-left: 70px;
+}
 
 .item a {
-    color: white;
+    color: #2F4F4F;
     text-decoration: none;
 }
 
 .itemSettings a{
     margin-bottom: 20px;
-    color: white;
+    color: #2F4F4F;
     text-decoration: none;
 }
 
