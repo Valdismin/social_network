@@ -4,7 +4,7 @@ import userPhoto from "../../assets/images/user.png";
 import {usersDataType} from "../../redux/users_reducer";
 import {NavLink} from "react-router-dom";
 import {Button} from "@material-ui/core";
-import {Paginator} from "./Paginator";
+import {Paginator} from "../common/Paginator/Paginator";
 
 
 type usersAllType2 = {
@@ -25,7 +25,7 @@ export const Users = (props: usersAllType2) => {
         <Paginator currentPage={props.currentPage}
                    onPageChanged={props.onPageChanged}
                    pageSize={props.pageSize}
-                   totalUsersCount={props.totalUsersCount}/>
+                   totalItemsCount={props.totalUsersCount}/>
         {
             props.users.map(u => <div key={u.id}>
             <span>
