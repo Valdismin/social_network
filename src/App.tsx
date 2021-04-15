@@ -2,17 +2,22 @@ import React from 'react';
 import './App.css';
 import {Navigation} from "./components/Navigation/Navigation";
 import {Route, withRouter} from "react-router-dom";
-import DialogsContainer from "./components/Dilogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import {stateType} from "./redux/redux-store";
-import {Preloader} from "./components/common/Preloader/preloader";
+
 import {LinearProgress} from "@material-ui/core";
+import {withSuspense} from './hoc/withSuspence';
+
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+const DialogsContainer = React.lazy(() => import('./components/Dilogs/DialogsContainer'))
+
+const SuspendedDialogs = withSuspense(DialogsContainer)
+const SuspendedProfile = withSuspense(ProfileContainer)
 
 class App extends React.Component<PropsType> {
 
@@ -33,8 +38,8 @@ class App extends React.Component<PropsType> {
                 <Navigation/>
                 <div className='app-wrapper-content'>
                     <Route exact path={'/'} render={() => <ProfileContainer/>}/>
-                    <Route path='/dialogs' render={() => <DialogsContainer/>}/>
-                    <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
+                    <Route path='/dialogs' render={() => <SuspendedDialogs/>}/>
+                    <Route path='/profile/:userId?' render={() => <SuspendedProfile/>}/>
                     <Route path='/users' render={() => <UsersContainer/>}/>
                     <Route path='/login' render={() => <Login/>}/>
                 </div>
