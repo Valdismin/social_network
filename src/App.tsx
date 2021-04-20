@@ -9,7 +9,6 @@ import {connect} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import {stateType} from "./redux/redux-store";
-
 import {LinearProgress} from "@material-ui/core";
 import {withSuspense} from './hoc/withSuspence';
 
