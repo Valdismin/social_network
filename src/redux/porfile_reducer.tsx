@@ -24,7 +24,7 @@ export type ContactsType = {
     youtube: string | null
     mainLink: string | null
 }
-export type PhotosType = { small: string, large: string }
+export type PhotosType = { small: any, large: any }
 export type AddPostType = {
     type: "ADD-POST",
     newPost: string
@@ -40,6 +40,10 @@ export type setUserProfileType = {
 export type setStatusType = {
     type: "SET-STATUS"
     status: string
+}
+export type updatePhotoType = {
+    type: "UPDATE-PHOTO"
+    file: any
 }
 
 
@@ -76,6 +80,8 @@ export const profileReducer = (state = initialState, action: ActionsTypes): stat
             return {...state, status: action.status}
         case "DELETE-POST":
             return {...state, postsData: state.postsData.filter((p) => p.id !== action.postId)}
+        case "UPDATE-PHOTO":
+            return {...state, profile: {...state.profile,photos:action.file} as ProfileType}
         default :
             return state
     }
@@ -93,6 +99,10 @@ export const setStatus = (status: string): setStatusType => (
 export const deletePost = (postId: number): DeletePostType => (
     {type: "DELETE-POST", postId}
 ) as const
+export const updatePhotoSuccess = (file: any): updatePhotoType => (
+    {type: "UPDATE-PHOTO", file}
+) as const
+
 
 export const getUserProfile = (userId: string): ThunkAction<Promise<void>, stateType, unknown, ActionsTypes> => {
     return async (dispatch) => {
@@ -116,8 +126,19 @@ export const updateStatus = (status: string): ThunkAction<Promise<void>, stateTy
     }
 }
 
+export const savePhoto = (file: any): ThunkAction<Promise<void>, stateType, unknown, ActionsTypes> => {
+    debugger
+    return async (dispatch) => {
+        let response = await profileAPI.savePhoto(file)
+        if (response.data.resultCode === 0) {
+            dispatch(updatePhotoSuccess(response.data.photos))
+        }
+    }
+}
+
 export type ActionsTypes =
     ReturnType<typeof addPostCreateAction>
     | ReturnType<typeof setUserProfile>
     | ReturnType<typeof setStatus>
     | ReturnType<typeof deletePost>
+    | ReturnType<typeof updatePhotoSuccess>

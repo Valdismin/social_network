@@ -16,7 +16,7 @@ export const Header = (props:propsType) => {
                 <div className={s.loginBlock}>
                     {props.isAuth
                         ? <div>{props.login} - <Button className={s.button} onClick={props.logout}>Log out</Button></div>
-                        : <button><NavLink className={s.logButton} to={'/login'}>Login</NavLink></button>}
+                        : <Button className={s.button}><NavLink className={s.navlink} to={'/login'}>Login</NavLink></Button>}
                 </div>
         </header>
     )

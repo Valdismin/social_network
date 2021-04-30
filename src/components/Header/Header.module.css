@@ -21,6 +21,6 @@
 .button{
     background-color: silver !important;
 }
-.logButton{
-    color: black !important;
+.navlink{
+    text-decoration: none;
 }
